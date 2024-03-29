@@ -1,0 +1,96 @@
+19-Feb-2024:13:26 - refactor projects struture
+19-Feb-2024:13:26 - add project id as folder structure
+19-Feb-2024:13:37 - reinit module folder
+19-Feb-2024:17:35 - 使用 Terraform 建置 Dev 環境 artifacts_registry 已完成
+19-Feb-2024:17:35 - 使用 Terraform 建置 Dev 環境 big_query 已完成
+21-Feb-2024:17:00 - 更新 Project ID
+21-Feb-2024:17:00 - 更新 Terraform 變數
+21-Feb-2024:17:08 - 移除 cloud armor 資料夾
+21-Feb-2024:17:08 - 移除 firewall 資料夾
+21-Feb-2024:17:08 - 移除 iam_sa 資料夾
+21-Feb-2024:17:08 - 移除 ip_address 資料夾
+21-Feb-2024:17:08 - 移除 tfstate
+21-Feb-2024:17:18 - 移除 .terraform
+21-Feb-2024:17:18 - 更新 .gitignore
+21-Feb-2024:18:32 - 更新 staging 資料夾底下 artifacts_registry backend tfstate
+21-Feb-2024:18:32 - 更新 staging 資料夾底下 big_query backend tfstate
+21-Feb-2024:18:32 - 更新 staging 資料夾底下 gke backend tfstate
+21-Feb-2024:18:32 - 更新 staging 資料夾底下 redis_instance backend tfstate
+21-Feb-2024:18:32 - 更新 staging 資料夾底下 redis_instance backend tfstate
+21-Feb-2024:18:32 - 更新 staging 資料夾底下 sql_instance_mysql backend tfstate
+21-Feb-2024:18:32 - 更新 staging 資料夾底下 sql_instance_mysql_ha backend tfstate
+21-Feb-2024:18:32 - 修改 staging 環境 Cloud Storage 的名稱 external-data-storage -> external_data_storage
+21-Feb-2024:18:32 - staging 環境剩下 redis_instance 和 sql_instance_mysql 還沒有建立。需要授權 GCP API & Service 
+22-Feb-2024:11:20 - 使用 Terraform 建立 staging 環境的 artifacts_registry、 big_query、gke、redis_instance、sql_instance_mysql 和 storage_bucket 服務皆已完成
+22-Feb-2024:11:20 - 更新 Cloud SQL 設定資訊
+22-Feb-2024:11:20 - 增加 Staging 環境 SQL 容器空間
+22-Feb-2024:11:20 - 修改資料夾命名
+22-Feb-2024:11:20 - 增加環境與 GCP 專案 ID 對應關係
+22-Feb-2024:15:11 - 測試 Staging 環境使用 pipeline 發的 CI/CD 流程
+22-Feb-2024:15:11 - gitlab yml 檔案錯誤
+22-Feb-2024:15:22 - 修改 gitlab yml job tags
+22-Feb-2024:15:56 - 修改 gitlab yml 寫法
+22-Feb-2024:15:56 - 修改 gitlab yml job tags 使用 "ahkui-test"
+22-Feb-2024:16:01 - 修改 gitlab yml job tags 使用 "shared-javascript"
+22-Feb-2024:16:02 - comment unused source code
+22-Feb-2024:16:02 - add terraform command & vaildate,plan,apply flow
+22-Feb-2024:16:10 - fix personal mistake, cd path mistake
+22-Feb-2024:16:21 - add copy service account command
+22-Feb-2024:16:21 - change terraform sa file name inside providertf file
+22-Feb-2024:16:30 - change terraform sa file path
+22-Feb-2024:16:35 - fix linux command
+22-Feb-2024:17:04 - update gke terraform version
+22-Feb-2024:17:04 - update redis instance terraform version
+23-Feb-2024:09:42 - update cloud sql infomation
+23-Feb-2024:09:49 - update cloud sql ha variable mistake
+23-Feb-2024:10:35 - remove unused code in staging env sql
+23-Feb-2024:10:35 - remove IAC type: sql terraform choose. bcoz gitlab runner can't auth GCP project ip address 
+23-Feb-2024:10:56 - update readme.md
+23-Feb-2024:10:56 - remove console data in gitlab-ci yml
+23-Feb-2024:15:02 - change cloud sql master tier
+27-Feb-2024:12:10 - refactor Terraform resource structure
+27-Feb-2024:12:10 - add Terragrunt structure
+27-Feb-2024:12:10 - add Terragrunt Dev & Staging Env
+27-Feb-2024:12:16 - add gitlab-ci trigger testing
+27-Feb-2024:12:18 - remove gitlab-ci trigger testing
+27-Feb-2024:12:18 - complete staging refactor to Terragrunt structure
+27-Feb-2024:13:41 - fix service account path
+27-Feb-2024:13:41 - add service account variable in module
+27-Feb-2024:15:09 - remove module 'backend.tf'
+27-Feb-2024:15:15 - remove module 'backend.tf & terraform.tfvars'
+27-Feb-2024:15:18 - refactor example folder structure
+27-Feb-2024:15:34 - refactor dev env structure
+27-Feb-2024:15:41 - update gitlab ci yml file add dev pipeline & prod pipeline
+27-Feb-2024:15:56 - update dev project id
+27-Feb-2024:15:57 - remove .terragrunt-cache folder
+27-Feb-2024:15:57 - update Dev Env gke network & subnet
+27-Feb-2024:15:57 - fix Dev Env gke network & subnet
+27-Feb-2024:17:25 - fix Dev Env redis subnetwork
+27-Feb-2024:17:35 - update Dev Env mysql subnetwork & cloud storage name
+29-Feb-2024:17:35 - fix Env: dev network mistake.
+01-Mar-2024:11:45 - update gitlab-ci pipeline
+01-Mar-2024:11:53 - update gitlab example for terraform
+01-Mar-2024:11:53 - add plan pipeline job
+01-Mar-2024:11:53 - update vaildate pipeline job
+01-Mar-2024:12:07 - update copy service account command
+01-Mar-2024:12:09 - mistake sql_instance_mysql
+01-Mar-2024:12:16 - add ignore command
+01-Mar-2024:12:16 - create temp area for check plan
+01-Mar-2024:14:52 - update gitlab ci check vaildate stage & plan stage
+01-Mar-2024:15:05 - remove demo folder
+01-Mar-2024:16:01 - add gitlab ci rules
+01-Mar-2024:16:25 - update gitlab rules
+06-Mar-2024:16:43 - add cloud_run_service terraform config
+06-Mar-2024:16:43 - update cloud_run_service terraform config filename to cloud_run_instance
+06-Mar-2024:16:43 - add cloud_run_vpc_connector
+06-Mar-2024:16:49 - remove comment source code
+07-Mar-2024:17:57 - update terraform & terragrunt example
+28-Mar-2024:11:01 - update dev-qa & new production gcp project id
+28-Mar-2024:16:42 - add production gcp resource
+28-Mar-2024:16:44 - refactor terragrunt-example folder structure
+28-Mar-2024:16:50 - add git diff into gitlab-ci.yml
+28-Mar-2024:16:53 - add prod vaildate, plan into gitlab-ci.yml
+28-Mar-2024:17:02 - testing git-diff script
+28-Mar-2024:17:04 - add tag & image into git-diff job
+29-Mar-2024:10:21 - update gitlab ci make job into module mode
+29-Mar-2024:13:37 - update generate_job.sh and job.yml template

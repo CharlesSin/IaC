@@ -1,0 +1,189 @@
+stages:
+  - begin
+  - git-diff
+  - validate
+  - plan
+  - plan&apply
+
+default:
+  tags:
+    - gitlab-org-docker
+
+begin-job:
+  stage: "begin"
+  image: node:20-alpine
+  before_script:
+    - echo "before script begin job"
+  script:
+    - echo "bash script begin job"
+
+variables:
+  PARENT_PIPELINE_ID: ${CI_PIPELINE_ID} # 將父流程的 CI_PIPELINE_ID 傳給子流程
+  PROJECT:
+    value: "請選擇以下專案"
+    options:
+      - "請選擇以下專案"
+      - "dev"
+      - "staging"
+      - "prod"
+    description: "請選擇要執行的專案名稱，此欄位為必填，沒有填寫會無法執行"
+  IAC_TYPE:
+    value: "請選擇以下 IaC 類型"
+    options:
+      - "請選擇以下 IaC 類型"
+      - "artifacts_registry"
+      - "big_query"
+      - "gke"
+      - "redis_instance"
+      - "storage_bucket"
+    description: "請選擇要執行的 IaC 類型，此欄位為必填，沒有填寫會無法執行"
+
+.reference:
+  common_rules:
+    - if: $CI_COMMIT_BRANCH == "originmain" && $CI_PIPELINE_SOURCE == "web"
+      changes:
+        - "projects/**/**/terragrunt.hcl"
+  plan_rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+      changes:
+        - "projects/**/**/terragrunt.hcl"
+  run_pipeline_rules:
+    - if: $CI_PIPELINE_SOURCE == "web" && $PROJECT != "請選擇以下專案" && $IAC_TYPE != "請選擇以下 IaC 類型"
+      when: on_success
+      allow_failure: false
+
+git-diff:
+  stage: git-diff
+  image:
+    name: alpine:latest
+  before_script:
+    - apk add --no-cache bash 1>/dev/null
+  script:
+    - echo ${PROJECT}/${IAC_TYPE}
+    - |
+      if [ "${PROJECT}" == "dev" ]; then
+        chmod +x ./generate_job.sh
+        ./generate_job.sh ${PROJECT}/${IAC_TYPE} dev
+      fi
+      if [ "${PROJECT}" == "staging" ]; then
+        chmod +x ./generate_job.sh
+        ./generate_job.sh ${PROJECT}/${IAC_TYPE} staging
+      fi
+      if [ "${PROJECT}" == "prod" ]; then
+        chmod +x ./generate_job.sh
+        ./generate_job.sh ${PROJECT}/${IAC_TYPE} prod
+      fi
+    - ls -al
+    - cat job.yml
+  rules:
+    - !reference [.reference, common_rules]
+    - !reference [.reference, plan_rules]
+  artifacts:
+    paths:
+      - job.yml
+    expire_in: "3600"
+
+plan:
+  stage: plan
+  rules:
+    - !reference [.reference, plan_rules]
+  trigger:
+    include:
+      - artifact: job.yml
+        job: git-diff
+    strategy: depend
+
+plan & apply:
+  stage: plan&apply
+  rules:
+    - !reference [.reference, common_rules]
+  trigger:
+    include:
+      - artifact: job.yml
+        job: git-diff
+    strategy: depend
+
+.validate: &validate ## 因為下面的檢查 dev & dev+qa & staging & prod 都會使用到，所以拉出來寫避免重複
+  stage: "validate"
+  image:
+    name: alpine/terragrunt
+  script:
+    - terragrunt validate-all
+
+.planing: &planing ## 因為下面的檢查 dev & dev+qa & staging & prod 都會使用到，所以拉出來寫避免重複
+  stage: "plan"
+  image:
+    name: alpine/terragrunt
+  script:
+    - cp $PLANNING_TERRAFORM_SA ./artifacts_registry/terraform_sa.json
+    - cp $PLANNING_TERRAFORM_SA ./big_query/terraform_sa.json
+    - cp $PLANNING_TERRAFORM_SA ./gke/terraform_sa.json
+    - cp $PLANNING_TERRAFORM_SA ./redis_instance/terraform_sa.json
+    - cp $PLANNING_TERRAFORM_SA ./storage_bucket/terraform_sa.json
+    - rm -rf ./sql_instance_mysql
+    - terragrunt run-all plan
+
+# 以下是檢查是否有效
+dev-validate:
+  <<: *validate ## 會去跑上面的.validate: &validate 部分
+  before_script:
+    - echo "terragrunt validate for dev"
+    - cd projects/dev
+  rules:
+    - if: $CI_COMMIT_BRANCH == "originmain" && $PROJECT == "dev" && $CI_PIPELINE_SOURCE == "web"
+    - if: $CI_COMMIT_BRANCH == "originmain" && $CI_PIPELINE_SOURCE == "push"
+
+staging-validate:
+  <<: *validate ## 會去跑上面的.validate: &validate 部分
+  before_script:
+    - echo "terragrunt validate for staging"
+    - cd projects/staging
+  rules:
+    - if: $CI_COMMIT_BRANCH == "originmain" && $PROJECT == "staging" && $CI_PIPELINE_SOURCE == "web"
+    - if: $CI_COMMIT_BRANCH == "originmain" && $CI_PIPELINE_SOURCE == "push"
+
+prod-validate:
+  <<: *validate ## 會去跑上面的.validate: &validate 部分
+  before_script:
+    - echo "terragrunt validate for prod"
+    - cd projects/prod
+  rules:
+    - if: $CI_COMMIT_BRANCH == "originmain" && $PROJECT == "prod" && $CI_PIPELINE_SOURCE == "web"
+    - if: $CI_COMMIT_BRANCH == "originmain" && $CI_PIPELINE_SOURCE == "push"
+
+# 以下是 plan terraform
+dev-plan:
+  <<: *planing ## 會去跑上面的.validate: &validate 部分
+  variables:
+    PLANNING_TERRAFORM_SA: ${DEV_TERRAFORM_SA}
+  before_script:
+    - echo "terragrunt plan dev"
+    - cd projects/dev
+    - ls -al
+  rules:
+    - if: $CI_COMMIT_BRANCH == "originmain" && $PROJECT == "dev" && $CI_PIPELINE_SOURCE == "web"
+    - if: $CI_COMMIT_BRANCH == "originmain" && $CI_PIPELINE_SOURCE == "push"
+
+staging-plan:
+  <<: *planing ## 會去跑上面的.validate: &validate 部分
+  variables:
+    PLANNING_TERRAFORM_SA: ${STAGING_TERRAFORM_SA}
+  before_script:
+    - echo "terragrunt plan staging"
+    - cd projects/staging
+    - ls -al
+  rules:
+    - if: $CI_COMMIT_BRANCH == "originmain" && $PROJECT == "staging" && $CI_PIPELINE_SOURCE == "web"
+    - if: $CI_COMMIT_BRANCH == "originmain" && $CI_PIPELINE_SOURCE == "push"
+
+prod-plan:
+  <<: *planing ## 會去跑上面的.validate: &validate 部分
+  variables:
+    PLANNING_TERRAFORM_SA: ${PROD_TERRAFORM_SA}
+  before_script:
+    - echo "terragrunt plan prod"
+    - cd projects/prod
+    - ls -al
+  rules:
+    - if: $CI_COMMIT_BRANCH == "originmain" && $PROJECT == "prod" && $CI_PIPELINE_SOURCE == "web"
+    - if: $CI_COMMIT_BRANCH == "originmain" && $CI_PIPELINE_SOURCE == "push"

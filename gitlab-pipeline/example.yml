@@ -1,0 +1,63 @@
+# Terraform Example
+stages:
+  - validate
+  - plan
+  - apply
+
+image:
+  name: hashicorp/terraform:light
+  entrypoint:
+    - '/usr/bin/env'
+    - 'PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
+
+variable:
+  ROOT : "service"
+  FILE_PATH: "artifacts_registry"
+
+before_script:
+  - cp $TERRAFORM_SA /tmp/credentials.json
+  - export GOOGLE_APPLICATION_CREDENTIALS="/tmp/credentials.json"
+  - cd ${ROOT}/${FILE_PATH}
+  - rm -rf .terraform
+  - terraform --version
+  - terraform init
+
+validate:
+  stage: validate
+  tags: 
+    - shared-javascript
+  script:
+    - terraform validate
+
+plan:
+  stage: plan
+  dependencies:
+    - validate
+  tags: 
+    - shared-javascript
+  cache:
+    - key:
+      paths:
+        - ${ROOT}/${FILE_PATH}/planfile
+  script:
+    - terraform plan -out "planfile" -var="$PROJECT_ID" -var="$REGION"
+  artifacts:
+    paths:
+      - ${ROOT}/${FILE_PATH}/planfile
+
+apply:
+  stage: apply
+  tags: 
+    - shared-javascript
+  dependencies:
+    - plan
+  cache:
+    - key:
+      paths:
+        - ${ROOT}/${FILE_PATH}/planfile
+  script:
+    - terraform apply -input=false "planfile"
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "web" && $PROJECT_ID != "請輸入專案 ID" && $REGION != "請填寫建置 Region"
+      when: on_success
+      allow_failure: false
