@@ -1,6 +1,6 @@
 #!/bin/bash
 
-generate_status=${2}
+env_status=${2}
 
 insert_before_script() {
   echo "
@@ -23,7 +23,7 @@ insert_dev_sa() {
 }
 
 insert_devqa_sa() {
-  echo "    - cp ${PROD_TERRAFORM_SA} projects/${PROJECT_URL}/terraform_sa.json
+  echo "    - cp ${DEV_QA_TERRAFORM_SA} projects/${PROJECT_URL}/terraform_sa.json
   " >>job.yml
 }
 
@@ -72,29 +72,29 @@ generate_apply_job() {
 
 IFS=',' read -ra PROJECT_URLS <<<"$1"
 for PROJECT_URL in "${PROJECT_URLS[@]}"; do
-  if [ "${generate_status}" == "dev" ]; then
-    echo "環境變數: ${generate_status}"
+  if [ "${env_status}" == "dev" ]; then
+    echo "環境變數: ${env_status}"
     insert_before_script
     insert_dev_sa
     generate_plan_job "$PROJECT_URL" "$PARENT_PIPELINE_ID"
     generate_apply_job "$PROJECT_URL" "$PARENT_PIPELINE_ID"
   fi
-  if [ "${generate_status}" == "devqa" ]; then
-    echo "環境變數: ${generate_status}"
+  if [ "${env_status}" == "devqa" ]; then
+    echo "環境變數: ${env_status}"
     insert_before_script
     insert_devqa_sa
     generate_plan_job "$PROJECT_URL" "$PARENT_PIPELINE_ID"
     generate_apply_job "$PROJECT_URL" "$PARENT_PIPELINE_ID"
   fi
-  if [ "${generate_status}" == "staging" ]; then
-    echo "環境變數: ${generate_status}"
+  if [ "${env_status}" == "staging" ]; then
+    echo "環境變數: ${env_status}"
     insert_before_script
     insert_staging_sa
     generate_plan_job "$PROJECT_URL" "$PARENT_PIPELINE_ID"
     generate_apply_job "$PROJECT_URL" "$PARENT_PIPELINE_ID"
   fi
-  if [ "${generate_status}" == "prod" ]; then
-    echo "環境變數: ${generate_status}"
+  if [ "${env_status}" == "prod" ]; then
+    echo "環境變數: ${env_status}"
     insert_before_script
     insert_prod_sa
     generate_plan_job "$PROJECT_URL" "$PARENT_PIPELINE_ID"

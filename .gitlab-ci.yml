@@ -24,6 +24,7 @@ variables:
     options:
       - "請選擇以下專案"
       - "dev"
+      - "devqa"
       - "staging"
       - "prod"
     description: "請選擇要執行的專案名稱，此欄位為必填，沒有填寫會無法執行"
@@ -35,12 +36,13 @@ variables:
       - "big_query"
       - "gke"
       - "redis_instance"
+      - "sql_instance_mysql"
       - "storage_bucket"
     description: "請選擇要執行的 IaC 類型，此欄位為必填，沒有填寫會無法執行"
 
 .reference:
   common_rules:
-    - if: $CI_COMMIT_BRANCH == "originmain" && $CI_PIPELINE_SOURCE == "web"
+    - if: $CI_COMMIT_BRANCH == "main" && $CI_PIPELINE_SOURCE == "web"
       changes:
         - "projects/**/**/terragrunt.hcl"
   plan_rules:
@@ -130,8 +132,17 @@ dev-validate:
     - echo "terragrunt validate for dev"
     - cd projects/dev
   rules:
-    - if: $CI_COMMIT_BRANCH == "originmain" && $PROJECT == "dev" && $CI_PIPELINE_SOURCE == "web"
-    - if: $CI_COMMIT_BRANCH == "originmain" && $CI_PIPELINE_SOURCE == "push"
+    - if: $CI_COMMIT_BRANCH == "main" && $PROJECT == "dev" && $CI_PIPELINE_SOURCE == "web"
+    - if: $CI_COMMIT_BRANCH == "main" && $CI_PIPELINE_SOURCE == "push"
+
+devqa-validate:
+  <<: *validate ## 會去跑上面的.validate: &validate 部分
+  before_script:
+    - echo "terragrunt validate for devqa"
+    - cd projects/devqa
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main" && $PROJECT == "devqa" && $CI_PIPELINE_SOURCE == "web"
+    - if: $CI_COMMIT_BRANCH == "main" && $CI_PIPELINE_SOURCE == "push"
 
 staging-validate:
   <<: *validate ## 會去跑上面的.validate: &validate 部分
@@ -139,8 +150,8 @@ staging-validate:
     - echo "terragrunt validate for staging"
     - cd projects/staging
   rules:
-    - if: $CI_COMMIT_BRANCH == "originmain" && $PROJECT == "staging" && $CI_PIPELINE_SOURCE == "web"
-    - if: $CI_COMMIT_BRANCH == "originmain" && $CI_PIPELINE_SOURCE == "push"
+    - if: $CI_COMMIT_BRANCH == "main" && $PROJECT == "staging" && $CI_PIPELINE_SOURCE == "web"
+    - if: $CI_COMMIT_BRANCH == "main" && $CI_PIPELINE_SOURCE == "push"
 
 prod-validate:
   <<: *validate ## 會去跑上面的.validate: &validate 部分
@@ -148,8 +159,8 @@ prod-validate:
     - echo "terragrunt validate for prod"
     - cd projects/prod
   rules:
-    - if: $CI_COMMIT_BRANCH == "originmain" && $PROJECT == "prod" && $CI_PIPELINE_SOURCE == "web"
-    - if: $CI_COMMIT_BRANCH == "originmain" && $CI_PIPELINE_SOURCE == "push"
+    - if: $CI_COMMIT_BRANCH == "main" && $PROJECT == "prod" && $CI_PIPELINE_SOURCE == "web"
+    - if: $CI_COMMIT_BRANCH == "main" && $CI_PIPELINE_SOURCE == "push"
 
 # 以下是 plan terraform
 dev-plan:
@@ -161,8 +172,20 @@ dev-plan:
     - cd projects/dev
     - ls -al
   rules:
-    - if: $CI_COMMIT_BRANCH == "originmain" && $PROJECT == "dev" && $CI_PIPELINE_SOURCE == "web"
-    - if: $CI_COMMIT_BRANCH == "originmain" && $CI_PIPELINE_SOURCE == "push"
+    - if: $CI_COMMIT_BRANCH == "main" && $PROJECT == "dev" && $CI_PIPELINE_SOURCE == "web"
+    - if: $CI_COMMIT_BRANCH == "main" && $CI_PIPELINE_SOURCE == "push"
+
+devqa-plan:
+  <<: *planing ## 會去跑上面的.validate: &validate 部分
+  variables:
+    PLANNING_TERRAFORM_SA: ${DEV_TERRAFORM_SA}
+  before_script:
+    - echo "terragrunt plan devqa"
+    - cd projects/devqa
+    - ls -al
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main" && $PROJECT == "devqa" && $CI_PIPELINE_SOURCE == "web"
+    - if: $CI_COMMIT_BRANCH == "main" && $CI_PIPELINE_SOURCE == "push"
 
 staging-plan:
   <<: *planing ## 會去跑上面的.validate: &validate 部分
@@ -173,8 +196,8 @@ staging-plan:
     - cd projects/staging
     - ls -al
   rules:
-    - if: $CI_COMMIT_BRANCH == "originmain" && $PROJECT == "staging" && $CI_PIPELINE_SOURCE == "web"
-    - if: $CI_COMMIT_BRANCH == "originmain" && $CI_PIPELINE_SOURCE == "push"
+    - if: $CI_COMMIT_BRANCH == "main" && $PROJECT == "staging" && $CI_PIPELINE_SOURCE == "web"
+    - if: $CI_COMMIT_BRANCH == "main" && $CI_PIPELINE_SOURCE == "push"
 
 prod-plan:
   <<: *planing ## 會去跑上面的.validate: &validate 部分
@@ -185,5 +208,5 @@ prod-plan:
     - cd projects/prod
     - ls -al
   rules:
-    - if: $CI_COMMIT_BRANCH == "originmain" && $PROJECT == "prod" && $CI_PIPELINE_SOURCE == "web"
-    - if: $CI_COMMIT_BRANCH == "originmain" && $CI_PIPELINE_SOURCE == "push"
+    - if: $CI_COMMIT_BRANCH == "main" && $PROJECT == "prod" && $CI_PIPELINE_SOURCE == "web"
+    - if: $CI_COMMIT_BRANCH == "main" && $CI_PIPELINE_SOURCE == "push"

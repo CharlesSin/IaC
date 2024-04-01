@@ -7,7 +7,7 @@ inputs = {
   region          = ""
   zone            = "asia-east1-a"
   bucket_name_set = [
-    "rpa_data_storage",
-    "rpa_external_data_storage"
+    "example_data_storage",
+    "example_external_data_storage"
   ]
 }

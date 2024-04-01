@@ -11,12 +11,12 @@ remote_state {
   }
 
   config = {
-    address        = ""
-    lock_address   = ""
-    unlock_address = ""
+    address        = "https://swissknife.vip/api/v4/projects/3226/terraform/state/prod_big_query_terraform.tfstate"
+    lock_address   = "https://swissknife.vip/api/v4/projects/3226/terraform/state/prod_big_query_terraform.tfstate/lock"
+    unlock_address = "https://swissknife.vip/api/v4/projects/3226/terraform/state/prod_big_query_terraform.tfstate/lock"
 
-    username = ""
-    password = ""
+    username = "charles_sin"
+    password = "glpat-8KMzXCtYP4nZACcDm36t"
 
     lock_method   = "POST"
     unlock_method = "DELETE"
@@ -25,7 +25,7 @@ remote_state {
 }
 
 inputs = {
-  project_id     = ""
+  project_id     = "gcp-20240322-002"
   region         = "asia-east1"
   serviceAccount = "terraform_sa.json"
 }

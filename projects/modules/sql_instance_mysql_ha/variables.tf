@@ -13,7 +13,7 @@ variable "zone" {
   type        = string
 }
 
-variable "mysql_ha_name" {
+variable "db_name" {
   description = "The name for Cloud SQL instance"
   type        = string
 }

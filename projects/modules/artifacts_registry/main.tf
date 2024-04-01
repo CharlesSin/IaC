@@ -7,7 +7,7 @@ resource "google_artifact_registry_repository" "helm" {
 }
 
 resource "google_artifact_registry_repository" "platform" {
-  description   = "RPA 平台 Image Registry"
+  description   = "平台 Image Registry"
   format        = "DOCKER"
   location      = var.region
   project       = var.project_id
@@ -15,7 +15,7 @@ resource "google_artifact_registry_repository" "platform" {
 }
 
 resource "google_artifact_registry_repository" "url_shortener" {
-  description   = "RPA 短網址 Images Registry"
+  description   = "短網址 Images Registry"
   format        = "DOCKER"
   location      = var.region
   project       = var.project_id

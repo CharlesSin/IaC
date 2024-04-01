@@ -15,8 +15,8 @@ remote_state {
     lock_address   = "https://swissknife.vip/api/v4/projects/3226/terraform/state/staging_storage_bucket_terraform.tfstate/lock"
     unlock_address = "https://swissknife.vip/api/v4/projects/3226/terraform/state/staging_storage_bucket_terraform.tfstate/lock"
 
-    username = ""
-    password = ""
+    username = "charles_sin"
+    password = "glpat-8KMzXCtYP4nZACcDm36t"
 
     lock_method   = "POST"
     unlock_method = "DELETE"
@@ -26,7 +26,7 @@ remote_state {
 
 inputs = {
   serviceAccount = "terraform_sa.json"
-  project_id     = ""
+  project_id     = "gcp-20240131-013"
   region         = "asia-east1"
   zone           = "asia-east1-a"
   bucket_name_set = [

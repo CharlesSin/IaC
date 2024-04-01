@@ -11,12 +11,12 @@ remote_state {
   }
 
   config = {
-    address        = ""
-    lock_address   = ""
-    unlock_address = ""
+    address        = "https://swissknife.vip/api/v4/projects/3226/terraform/state/staging_gke_terraform.tfstate"
+    lock_address   = "https://swissknife.vip/api/v4/projects/3226/terraform/state/staging_gke_terraform.tfstate/lock"
+    unlock_address = "https://swissknife.vip/api/v4/projects/3226/terraform/state/staging_gke_terraform.tfstate/lock"
 
-    username = ""
-    password = ""
+    username = "charles_sin"
+    password = "glpat-8KMzXCtYP4nZACcDm36t"
 
     lock_method   = "POST"
     unlock_method = "DELETE"
@@ -26,21 +26,21 @@ remote_state {
 
 inputs = {
   serviceAccount                       = "terraform_sa.json"
-  project_id                           = ""
+  project_id                           = "gcp-20240131-013"
   region                               = "asia-east1"
   zone                                 = "asia-east1-a"
-  cluster_name_suffix                  = "staging-cluster"
-  network                              = ""
-  subnetwork                           = ""
+  cluster_name_suffix                  = "rpa-staging-cluster"
+  network                              = "staging"
+  subnetwork                           = "bi-rpa-staging"
   ip_range_pods                        = "gke-pods"
   ip_range_services                    = "gke-service"
   enable_binary_authorization          = false
   regional                             = false
   kubernetes_version                   = "latest"
-  name                                 = "staging-cluster"
+  name                                 = "rpa-staging-cluster"
   zones                                = ["asia-east1-a"]
   release_channel                      = "STABLE"
-  network_project_id                   = ""
+  network_project_id                   = "gcp-202011216-001"
   gcs_fuse_csi_driver                  = false
   master_authorized_networks           = []
   maintenance_start_time               = "2023-01-01T14:00:00Z" # 轉換為 22:00 (UTC+8)

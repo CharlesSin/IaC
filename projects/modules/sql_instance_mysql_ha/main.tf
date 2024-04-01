@@ -2,7 +2,7 @@ locals {
   read_replica_ip_configuration = {
     ipv4_enabled        = true
     require_ssl         = false
-    private_network     = "projects/goap-201904/global/networks/default"
+    private_network     = "projects/${var.network_project_id}/global/networks/${var.network}"
     allocated_ip_range  = null
     authorized_networks = var.authorized_networks
   }
@@ -12,7 +12,7 @@ module "mysql" {
   source  = "terraform-google-modules/sql-db/google//modules/mysql"
   version = "~> 18.0"
 
-  name             = var.mysql_ha_name
+  name             = var.db_name
   project_id       = var.project_id
   database_version = "MYSQL_8_0"
   region           = var.region
@@ -80,13 +80,13 @@ module "mysql" {
     },
   ]
 
-  db_name      = var.mysql_ha_name
+  db_name      = var.db_name
   db_charset   = "utf8mb4"
   db_collation = "utf8mb4_general_ci"
 
   additional_databases = [
     {
-      name      = "${var.mysql_ha_name}-additional"
+      name      = "${var.db_name}-additional"
       charset   = "utf8mb4"
       collation = "utf8mb4_general_ci"
     },

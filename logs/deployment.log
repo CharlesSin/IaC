@@ -31,7 +31,6 @@
 22-Feb-2024:15:22 - 修改 gitlab yml job tags
 22-Feb-2024:15:56 - 修改 gitlab yml 寫法
 22-Feb-2024:15:56 - 修改 gitlab yml job tags 使用 "ahkui-test"
-22-Feb-2024:16:01 - 修改 gitlab yml job tags 使用 "shared-javascript"
 22-Feb-2024:16:02 - comment unused source code
 22-Feb-2024:16:02 - add terraform command & vaildate,plan,apply flow
 22-Feb-2024:16:10 - fix personal mistake, cd path mistake
@@ -94,3 +93,7 @@
 28-Mar-2024:17:04 - add tag & image into git-diff job
 29-Mar-2024:10:21 - update gitlab ci make job into module mode
 29-Mar-2024:13:37 - update generate_job.sh and job.yml template
+01-Apr-2024:10:44 - record update production machine type from n2-standard-4 change to n2-standard-8
+01-Apr-2024:10:44 - change mysql high availability db name from mysql_ha_name to db_name
+01-Apr-2024:10:44 - change mysql high availability private_network 
+
