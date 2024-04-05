@@ -132,8 +132,7 @@ dev-validate:
     - echo "terragrunt validate for dev"
     - cd projects/dev
   rules:
-    - if: $CI_COMMIT_BRANCH == "main" && $PROJECT == "dev" && $CI_PIPELINE_SOURCE == "web"
-    - if: $CI_COMMIT_BRANCH == "main" && $CI_PIPELINE_SOURCE == "push"
+    - if: $PROJECT == "dev" && $CI_PIPELINE_SOURCE == "web"
 
 devqa-validate:
   <<: *validate ## 會去跑上面的.validate: &validate 部分
@@ -141,8 +140,7 @@ devqa-validate:
     - echo "terragrunt validate for devqa"
     - cd projects/devqa
   rules:
-    - if: $CI_COMMIT_BRANCH == "main" && $PROJECT == "devqa" && $CI_PIPELINE_SOURCE == "web"
-    - if: $CI_COMMIT_BRANCH == "main" && $CI_PIPELINE_SOURCE == "push"
+    - if: $PROJECT == "devqa" && $CI_PIPELINE_SOURCE == "web"
 
 staging-validate:
   <<: *validate ## 會去跑上面的.validate: &validate 部分
@@ -150,8 +148,7 @@ staging-validate:
     - echo "terragrunt validate for staging"
     - cd projects/staging
   rules:
-    - if: $CI_COMMIT_BRANCH == "main" && $PROJECT == "staging" && $CI_PIPELINE_SOURCE == "web"
-    - if: $CI_COMMIT_BRANCH == "main" && $CI_PIPELINE_SOURCE == "push"
+    - if: $PROJECT == "staging" && $CI_PIPELINE_SOURCE == "web"
 
 prod-validate:
   <<: *validate ## 會去跑上面的.validate: &validate 部分
@@ -159,8 +156,7 @@ prod-validate:
     - echo "terragrunt validate for prod"
     - cd projects/prod
   rules:
-    - if: $CI_COMMIT_BRANCH == "main" && $PROJECT == "prod" && $CI_PIPELINE_SOURCE == "web"
-    - if: $CI_COMMIT_BRANCH == "main" && $CI_PIPELINE_SOURCE == "push"
+    - if: $PROJECT == "prod" && $CI_PIPELINE_SOURCE == "web"
 
 # 以下是 plan terraform
 dev-plan:
@@ -172,8 +168,7 @@ dev-plan:
     - cd projects/dev
     - ls -al
   rules:
-    - if: $CI_COMMIT_BRANCH == "main" && $PROJECT == "dev" && $CI_PIPELINE_SOURCE == "web"
-    - if: $CI_COMMIT_BRANCH == "main" && $CI_PIPELINE_SOURCE == "push"
+    - if: $PROJECT == "dev" && $CI_PIPELINE_SOURCE == "web"
 
 devqa-plan:
   <<: *planing ## 會去跑上面的.validate: &validate 部分
@@ -184,8 +179,7 @@ devqa-plan:
     - cd projects/devqa
     - ls -al
   rules:
-    - if: $CI_COMMIT_BRANCH == "main" && $PROJECT == "devqa" && $CI_PIPELINE_SOURCE == "web"
-    - if: $CI_COMMIT_BRANCH == "main" && $CI_PIPELINE_SOURCE == "push"
+    - if: $PROJECT == "devqa" && $CI_PIPELINE_SOURCE == "web"
 
 staging-plan:
   <<: *planing ## 會去跑上面的.validate: &validate 部分
@@ -196,8 +190,7 @@ staging-plan:
     - cd projects/staging
     - ls -al
   rules:
-    - if: $CI_COMMIT_BRANCH == "main" && $PROJECT == "staging" && $CI_PIPELINE_SOURCE == "web"
-    - if: $CI_COMMIT_BRANCH == "main" && $CI_PIPELINE_SOURCE == "push"
+    - if: $PROJECT == "staging" && $CI_PIPELINE_SOURCE == "web"
 
 prod-plan:
   <<: *planing ## 會去跑上面的.validate: &validate 部分
@@ -208,5 +201,4 @@ prod-plan:
     - cd projects/prod
     - ls -al
   rules:
-    - if: $CI_COMMIT_BRANCH == "main" && $PROJECT == "prod" && $CI_PIPELINE_SOURCE == "web"
-    - if: $CI_COMMIT_BRANCH == "main" && $CI_PIPELINE_SOURCE == "push"
+    - if: $PROJECT == "prod" && $CI_PIPELINE_SOURCE == "web"
