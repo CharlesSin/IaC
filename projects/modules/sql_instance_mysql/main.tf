@@ -46,6 +46,6 @@ module "mysql" {
   ]
 
   user_name     = "USER"
-  user_password = "1qaz@WSX"
-  root_password = "=}k^kJEoiPTIHn5."
+  user_password = ""
+  root_password = ""
 }

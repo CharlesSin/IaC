@@ -45,7 +45,7 @@ module "mysql" {
     },
   ]
 
-  user_name     = "terraform-root-user"
-  user_password = "terraform!QAZ2wsx"
-  root_password = "=}k^kJEoiPTIHn5."
+  user_name     = "USER"
+  user_password = ""
+  root_password = ""
 }
