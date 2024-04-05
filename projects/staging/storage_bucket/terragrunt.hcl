@@ -11,12 +11,12 @@ remote_state {
   }
 
   config = {
-    address        = "https://swissknife.vip/api/v4/projects/3226/terraform/state/staging_storage_bucket_terraform.tfstate"
-    lock_address   = "https://swissknife.vip/api/v4/projects/3226/terraform/state/staging_storage_bucket_terraform.tfstate/lock"
-    unlock_address = "https://swissknife.vip/api/v4/projects/3226/terraform/state/staging_storage_bucket_terraform.tfstate/lock"
+    address        = "https://gitlab.com/api/v4/projects/3226/terraform/state/staging_storage_bucket_terraform.tfstate"
+    lock_address   = "https://gitlab.com/api/v4/projects/3226/terraform/state/staging_storage_bucket_terraform.tfstate/lock"
+    unlock_address = "https://gitlab.com/api/v4/projects/3226/terraform/state/staging_storage_bucket_terraform.tfstate/lock"
 
-    username = "charles_sin"
-    password = "glpat-8KMzXCtYP4nZACcDm36t"
+    username = ""
+    password = ""
 
     lock_method   = "POST"
     unlock_method = "DELETE"
@@ -26,12 +26,12 @@ remote_state {
 
 inputs = {
   serviceAccount = "terraform_sa.json"
-  project_id     = "gcp-20240131-013"
-  region         = "asia-east1"
-  zone           = "asia-east1-a"
+  project_id     = ""
+  region         = ""
+  zone           = ""
   bucket_name_set = [
-    "rpa_staging_data_storage",
-    "rpa_staging_external_data_storage"
+    "staging_data_storage",
+    "staging_external_data_storage"
   ]
 
 }

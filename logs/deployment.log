@@ -95,5 +95,5 @@
 29-Mar-2024:13:37 - update generate_job.sh and job.yml template
 01-Apr-2024:10:44 - record update production machine type from n2-standard-4 change to n2-standard-8
 01-Apr-2024:10:44 - change mysql high availability db name from mysql_ha_name to db_name
-01-Apr-2024:10:44 - change mysql high availability private_network 
-
+01-Apr-2024:10:44 - change mysql high availability private_network
+05-Apr-2024:10:44 - remove unused config

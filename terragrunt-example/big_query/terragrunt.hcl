@@ -1,5 +1,5 @@
 terraform {
-  source = "../modules/artifacts_registry"
+  source = "../modules/big_query"
 }
 
 inputs = {

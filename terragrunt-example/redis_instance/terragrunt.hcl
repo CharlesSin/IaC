@@ -5,10 +5,10 @@ terraform {
 inputs = {
   project_id         = ""
   region             = ""
-  zone               = "asia-east1-a"
-  network            = "staging"
+  zone               = ""
+  network           = ""
   name               = "redis-instance"
-  network_project_id = "gcp-202011216-001"
+  network_project_id = ""
   display_name       = "redis-instance"
   tier               = "BASIC"
   memory_size_gb     = 1

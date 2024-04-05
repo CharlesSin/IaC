@@ -11,12 +11,12 @@ remote_state {
   }
 
   config = {
-    address        = "https://swissknife.vip/api/v4/projects/3226/terraform/state/prod_redis_instance_terraform.tfstate"
-    lock_address   = "https://swissknife.vip/api/v4/projects/3226/terraform/state/prod_redis_instance_terraform.tfstate/lock"
-    unlock_address = "https://swissknife.vip/api/v4/projects/3226/terraform/state/prod_redis_instance_terraform.tfstate/lock"
+    address        = "https://gitlab.com/api/v4/projects/3226/terraform/state/prod_redis_instance_terraform.tfstate"
+    lock_address   = "https://gitlab.com/api/v4/projects/3226/terraform/state/prod_redis_instance_terraform.tfstate/lock"
+    unlock_address = "https://gitlab.com/api/v4/projects/3226/terraform/state/prod_redis_instance_terraform.tfstate/lock"
 
-    username = "charles_sin"
-    password = "glpat-8KMzXCtYP4nZACcDm36t"
+    username = ""
+    password = ""
 
     lock_method   = "POST"
     unlock_method = "DELETE"
@@ -26,13 +26,13 @@ remote_state {
 
 inputs = {
   serviceAccount     = "terraform_sa.json"
-  project_id         = "gcp-20240322-002"
-  region             = "asia-east1"
-  zone               = "asia-east1-a"
-  network            = "prod"
-  name               = "rpa-redis-instance"
-  network_project_id = "gcp-202011216-001"
-  display_name       = "rpa-redis-instance"
+  project_id         = ""
+  region             = ""
+  zone               = ""
+  network            = ""
+  name               = "redis-instance"
+  network_project_id = ""
+  display_name       = "redis-instance"
   tier               = "BASIC"
   memory_size_gb     = 1
   replica_count      = 2

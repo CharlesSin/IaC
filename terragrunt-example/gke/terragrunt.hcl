@@ -1,23 +1,23 @@
 terraform {
-  source = "../modules/artifacts_registry"
+  source = "../modules/gke"
 }
 
 inputs = {
   project_id                           = ""
   region                               = ""
-  zone                                 = "asia-east1-a"
+  zone                                 = ""
   cluster_name_suffix                  = "staging-cluster"
-  network                              = "staging"
-  subnetwork                           = "staging"
+  network                             = ""
+  subnetwork                          = ""
   ip_range_pods                        = "gke-pods"
   ip_range_services                    = "gke-service"
   enable_binary_authorization          = false
   regional                             = false
   kubernetes_version                   = "latest"
   name                                 = "staging-cluster"
-  zones                                = ["asia-east1-a"]
+  zones                                = [""]
   release_channel                      = "STABLE"
-  network_project_id                   = "gcp-202011216-001"
+  network_project_id                   = ""
   gcs_fuse_csi_driver                  = false
   master_authorized_networks           = []
   maintenance_start_time               = "2023-01-01T14:00:00Z" # 轉換為 22:00 (UTC+8)
@@ -31,7 +31,7 @@ inputs = {
   monitoring_enabled_components        = ["SYSTEM_COMPONENTS", "APISERVER", "SCHEDULER", "CONTROLLER_MANAGER", "STORAGE", "HPA", "POD", "DAEMONSET", "DEPLOYMENT"]
   monitoring_enable_managed_prometheus = true
   timeouts                             = {}
-  master_ipv4_cidr_block               = "172.16.0.144/28"
+  master_ipv4_cidr_block               = ""
   service_account                      = ""
   enable_private_nodes                 = false
   enable_private_endpoint              = false
